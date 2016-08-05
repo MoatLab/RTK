@@ -10,4 +10,5 @@
       - lat-cdf: plot latency cdf graph
       - lat-time: plot latency vs time graph
       - iops-time: plot iops vs time graph
+    * follow raw/README.md to modify your raw file names
     * run all.sh
