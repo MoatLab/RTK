@@ -7,7 +7,6 @@
 
 set -e # Exit on Error
 
-set -x
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -109,4 +108,3 @@ done
 
 echo "==== raw2dat done ===="
 
-set +x

@@ -48,7 +48,7 @@ SAMPLE_DURATION=80
 TERM="set term postscript eps color 20"
 TITLE="set title \"CDF of Read\""
 KEY="set key right bottom"
-SIZE="set size 0.5, 0.75"
+SIZE="set size 1, 1"
 XRANGE="set xrange [0:100]"
 YRANGE="set yrange [0.9:1]"
 XLABEL="set xlabel \"Latency (ms)\""
@@ -80,7 +80,7 @@ function genplot()
         for i in dat/$TARGET/*.dat; do
             LT=$(basename $i | awk -F"_" '{print $2}')
             # We need to extract the line title info from $LT later 
-            PL="'$i' u (\$1/1000):2 title \"$LT\" w l lc rgb ${rgbcolors[$cnt]} lw 8, \\"
+            PL="'$i' u (\$1/1000):2 t \"$LT\" w l lc rgb ${rgbcolors[$cnt]} lw 8, \\"
             cnt=$((cnt+1))
             echo $PL
         done
