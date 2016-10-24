@@ -20,14 +20,13 @@ STATDIR=$TOPDIR/stat
 
 ################################################################################
 
-if [[ -z "$1" ]]; then
-	echo "Usage: genplots TARGET, put all .dat files under dat/TARGET/"
+if [[ $# != 2 ]]; then
+	echo "Usage: bash genplot.sh TARGET TYPE, make sure all .dat files are under dat/TARGET/"
 	exit 1
 fi
 
 GNUPLOT=$(which gnuplot)
-if [[ ! -x "$GNUPLOT" ]]
-then
+if [[ ! -x "$GNUPLOT" ]]; then
 	echo "You need gnuplot installed to generate graphs"
 	exit 1
 fi
@@ -41,29 +40,110 @@ if [[ ! -d $EPSDIR ]]; then
 fi
 
 TARGET="$1"
+TYPE="$2"
 
-SAMPLE_DURATION=80
+XRANGE=
+YRANGE=
+XLABEL=
+YLABEL=
+YGRID=
+OUTPUT=
+KEY=
 
+case $TYPE in
+    "lat-cdf")
+        TITLE="set title \"CDF of Read\""
+        XRANGE="set xrange [0:100]"
+        YRANGE="set yrange [0.9:1]"
+        XLABEL="set xlabel \"Latency (ms)\""
+        KEY="set key right bottom"
+        X="(\$1/1000)"      # latency us -> ms, show in millionseconds
+        Y=2
+        ;;
+    "lat-time")
+        TITLE="set title \"Latency vs Time\""
+        XRANGE="set xrange [0:]"
+        YRANGE="set yrange [0:]"
+        XLABEL="set xlabel \"Time (s)\\n\""
+        YLABEL="set ylabel \"Latency (ms)\""
+        YGRID="set grid ytics"
+        KEY="set key bmargin center horizontal"
+        X="(\$1/1000)"      # timestamp ms -> s, show in seconds
+        Y="(\$2/1000)"      # latency us -> ms, show in millionseconds
+        ;;
+    "iops-time")
+        TITLE="set title \"IOPS vs Time\""
+        XRANGE="set xrange [0:]"
+        YRANGE="set yrange [0:]"
+        XLABEL="set xlabel \"Time (s)\\n\""
+        YLABEL="set ylabel \" KIOPS\""
+        KEY="set key bmargin center horizontal"
+        X="(\$1/1000)"      # timestamp ms -> s, show in seconds
+        Y="(\$2/1000)"      # IOPS shown as xx KIOPS
+        ;;
+    *)
+        echo "Unknown Type: $TYPE, exiting .."
+        exit
+        ;;
+esac
 
 TERM="set term postscript eps color 20"
-TITLE="set title \"CDF of Read\""
-KEY="set key right bottom"
-SIZE="set size 1, 1"
-XRANGE="set xrange [0:100]"
-YRANGE="set yrange [0.9:1]"
-XLABEL="set xlabel \"Latency (ms)\""
 OUTPUT="set output \"eps/$TARGET.eps\""
+SIZE="set size 1, 1"
 PLOT="plot \\"
 
-declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"red\" \"pink\" \"yellow\" \"purple\" \"cyan\")
+declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"orange\"  \"magenta\"
+                    \"cyan\" \"yellow\" \"purple\" \"pink\" \"red\")
 
+nbcolors=${#rgbcolors[@]}
+
+# given dat file, get [color index] for one plot
+# $1: CI_Identifier_LineTitle-TestNumber_Type.log, e.g., 5_3tos_sla20ms-1_lat.log
+function getCI()
+{
+    local datfname=$1
+    echo $(basename $datfname | awk -F"_" '{print $1}')
+}
+
+# given raw log file name, get line title for GNUPLOT
+function getLT() 
+{
+    local rawfname=$1
+    echo $(basename $rawfname | awk -F"_" '{print $3}')
+}
+
+# given filename and linetitle, get the plot command 
+# $1: dat file name
+# $2: line title, from getLT()
+# $3: color index, [0..nbcolors]
+# $4: total # of dat files, make sure color red is used for the last file
+function plotone()
+{
+    local datfname=$1
+    local LT=$2
+    local CI=$3
+    local nbdatfiles=$4
+    local MAXCI=$(($nbdatfiles - 1))
+    if [[ $CI == $MAXCI ]]; then
+        CI=$(($nbcolors-1))                 # use red
+    elif [[ $CI -gt $nbcolors ]]; then      # temporary hack
+        CI=$(($CI % $nbcolors))
+    fi
+    echo "'$datfname' u $X:$Y t \"$LT\" w l lc rgb ${rgbcolors[$CI]} lw 8, \\"
+}
+
+# the main function to generate gnuplot file
 function genplot() 
 {
     # we are picky about colors, so be careful about the ordering
-    if [[ -e $PLOTDIR/$TARGET.plot ]]; then
+    if [[ -e $PLOTDIR/${TARGET}.plot ]]; then
+        echo "Found existing plot file: ${TARGET}.plot"
         exit
     fi
 
+    nbfiles=$(ls -l dat/$TARGET/*.dat | wc -l)
+
+    # write plot file
     {
         echo $TERM
         echo $TITLE
@@ -71,6 +151,8 @@ function genplot()
         echo $XRANGE
         echo $YRANGE
         echo $XLABEL
+        echo $YLABEL
+        echo $YGRID
         echo $OUTPUT
 
         # settings should come before this line
@@ -78,13 +160,11 @@ function genplot()
 
         cnt=0
         for i in dat/$TARGET/*.dat; do
-            LT=$(basename $i | awk -F"_" '{print $2}')
-            # We need to extract the line title info from $LT later 
-            PL="'$i' u (\$1/1000):2 t \"$LT\" w l lc rgb ${rgbcolors[$cnt]} lw 8, \\"
-            cnt=$((cnt+1))
-            echo $PL
+            LT=$(getLT $i)
+            plotone $i $LT $cnt $nbfiles
+            ((cnt += 1))
         done
-    } > $PLOTDIR/$TARGET.plot
+    } > $PLOTDIR/${TARGET}.plot
 }
 
 genplot

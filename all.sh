@@ -22,14 +22,14 @@ PDFREADER=evince
 ###############################################################
 
 # supported TYPE: lat-cdf, lat-time, iops-time
-TARGET="varywrite11"
+TARGET="test"
 TYPE="lat-time"
 
 # only needed when generating dat files
 $SCRIPTDIR/raw2dat.sh $TYPE $TARGET 0 1 0.0001
 
 # generate plot file first 
-$SCRIPTDIR/genplot.sh $TARGET
+$SCRIPTDIR/genplot.sh $TARGET $TYPE
 
 # plot the graph
 gnuplot $PLOTDIR/$TARGET.plot
