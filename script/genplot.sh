@@ -129,7 +129,7 @@ function plotone()
     elif [[ $CI -gt $nbcolors ]]; then      # temporary hack
         CI=$(($CI % $nbcolors))
     fi
-    echo "'$datfname' u $X:$Y t \"$LT\" w l lc rgb ${rgbcolors[$CI]} lw 8, \\"
+    echo "'$datfname' u $X:$Y t \"$LT\" w l lc rgb ${rgbcolors[$CI]} lw 5, \\"
 }
 
 # the main function to generate gnuplot file
