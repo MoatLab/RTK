@@ -22,8 +22,7 @@ STATDIR=$TOPDIR/stat
 
 function pr_title()
 {
-    printf "%-32s%-12s%-12s%-12s%-12s\n" "Filename" "Min" "Average" "Median" "Max"
-    echo "----------------------------------------------------------------------------"
+    printf "%s,%s,%s,%s,%s\n" "Filename" "Min" "Average" "Median" "Max"
 }
 
 INPUT=$1
@@ -41,7 +40,7 @@ fi
 #fi
 
 
-if [[ -f $RAWDIR/$INPUT ]]; then
+if [[ -f $INPUT ]]; then
 
     pr_title
     awk -vFNAME=$(basename $INPUT) -f $SCRIPTDIR/stat.awk $INPUT
@@ -52,16 +51,20 @@ elif [[ -d $RAWDIR/$INPUT ]]; then
         mkdir -p $STATDIR/$INPUT
     fi
 
+    STATF=$STATDIR/$INPUT/$INPUT-stat.csv
+    if [[ -e $STATF ]]; then
+        exit
+    fi
+
     {
         pr_title 
         for i in $RAWDIR/$INPUT/*.tmp; do
             FNAME=$(basename $i)
             awk -vFNAME=$FNAME -f $SCRIPTDIR/stat.awk $i
-            echo "----------------------------------------------------------------------------"
         done
-    } > $STATDIR/$INPUT/stat.md
+    } > $STATF
 
     # show result to terminal
-    cat $STATDIR/$INPUT/stat.md
+    cat $STATF
 fi
 

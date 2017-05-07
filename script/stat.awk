@@ -26,7 +26,7 @@ END {
         median = lat[(i+1)/2]
 
     # Min, Avg, Median, Max
-    printf("%-32s%-12d%-12d%-12d%-12d\n", FNAME, min, avg, median, max)
+    printf("%s,%d,%d,%d,%d\n", FNAME, min, avg, median, max)
 
 
     #for (idx in cdf) {

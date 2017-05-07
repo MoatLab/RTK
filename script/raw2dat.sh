@@ -57,6 +57,8 @@ function raw2dat_lat_cdf()
     input=$1
     tmp=${input/log/tmp}
     awk -F"," '{print $2}' $1 | sort -n -o $tmp
+    # use the following line when you don't want to include 0-1us latency in your CDF graph
+    #awk -F"," '{if ($2 >= 40) print $2}' $1 | sort -n -o $tmp 
     # CDF(x, y), sampling
     $SCRIPTDIR/sample-cdf-lat.sh $tmp $MIN $MAX $PRECISION $2
 }

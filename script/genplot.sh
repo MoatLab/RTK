@@ -53,8 +53,8 @@ KEY=
 case $TYPE in
     "lat-cdf")
         TITLE="set title \"CDF of Read\""
-        XRANGE="set xrange [0:100]"
-        YRANGE="set yrange [0.9:1]"
+        XRANGE="set xrange [0:4]"
+        YRANGE="set yrange [0:1]"
         XLABEL="set xlabel \"Latency (ms)\""
         KEY="set key right bottom"
         X="(\$1/1000)"      # latency us -> ms, show in millionseconds

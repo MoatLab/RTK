@@ -18,12 +18,11 @@ PLOTDIR=$TOPDIR/plot
 EPSDIR=$TOPDIR/eps
 STATDIR=$TOPDIR/stat
 
-PDFREADER=evince
 ###############################################################
 
 # supported TYPE: lat-cdf, lat-time, iops-time
-TARGET="test"
-TYPE="lat-time"
+TARGET="p1-single-ram-effect"
+TYPE="iops-time"
 
 # only needed when generating dat files
 $SCRIPTDIR/raw2dat.sh $TYPE $TARGET 0 1 0.0001
@@ -31,9 +30,12 @@ $SCRIPTDIR/raw2dat.sh $TYPE $TARGET 0 1 0.0001
 # generate plot file first 
 $SCRIPTDIR/genplot.sh $TARGET $TYPE
 
+# get statistics
+$SCRIPTDIR/getstat.sh $TARGET
+
 # plot the graph
 gnuplot $PLOTDIR/$TARGET.plot
 
 # open the graph
-$PDFREADER $EPSDIR/$TARGET.eps
+pdfreader $EPSDIR/$TARGET.eps
 
