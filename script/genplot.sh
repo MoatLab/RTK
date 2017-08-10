@@ -53,11 +53,12 @@ KEY=
 case $TYPE in
     "lat-cdf")
         TITLE="set title \"CDF of Read\""
-        XRANGE="set xrange [0:4]"
+        XRANGE="set xrange [0:400]"
         YRANGE="set yrange [0:1]"
-        XLABEL="set xlabel \"Latency (ms)\""
+        XLABEL="set xlabel \"Latency (us)\""
         KEY="set key right bottom"
-        X="(\$1/1000)"      # latency us -> ms, show in millionseconds
+        #X="(\$1/1000)"      # latency us -> ms, show in millionseconds
+        X=1
         Y=2
         ;;
     "lat-time")
@@ -92,7 +93,7 @@ OUTPUT="set output \"eps/$TARGET.eps\""
 SIZE="set size 1, 1"
 PLOT="plot \\"
 
-declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"orange\"  \"magenta\"
+declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"magenta\" \"orange\" 
                     \"cyan\" \"yellow\" \"purple\" \"pink\" \"red\")
 
 nbcolors=${#rgbcolors[@]}
