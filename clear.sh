@@ -6,6 +6,7 @@ if [[ $# != 1 ]]; then
     echo ""
     echo "Usage: ./clear.sh directory-entry"
     echo ""
+    exit
 fi
 
 echo "Please confirm you want to delete [$input] entries! Type anything .."
