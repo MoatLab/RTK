@@ -1,6 +1,7 @@
 BEGIN {
     i = 0
     sum = 0
+    sumsq = 0
     avg = 0
     median = 0
     min = 0
@@ -11,6 +12,7 @@ BEGIN {
     i++
     lat[i] = $1
     sum += $1
+    sumsq += ($1)^2
 }
 
 END {
@@ -19,6 +21,7 @@ END {
     min = lat[1]
     max = lat[i]
     avg = sum / i
+    stddev = sqrt((sumsq-sum^2/NR)/NR)
 
     if (i % 2 == 0)
         median = (lat[i/2] + lat[i/2+1]) / 2
@@ -26,7 +29,7 @@ END {
         median = lat[(i+1)/2]
 
     # Min, Avg, Median, Max
-    printf("%s,%d,%d,%d,%d\n", FNAME, min, avg, median, max)
+    printf("%s,%d,%d,%d,%d,%.2f\n", FNAME, min, avg, median, max, stddev)
 
 
     #for (idx in cdf) {
