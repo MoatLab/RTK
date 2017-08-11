@@ -128,7 +128,7 @@ function plotone()
     if [[ $CI == $MAXCI ]]; then
         CI=$(($nbcolors-1))                 # use red
     elif [[ $CI -gt $nbcolors ]]; then      # temporary hack
-        CI=$(($CI % $nbcolors))
+        CI=$(($CI % $nbcolors + 1))
     fi
     echo "'$datfname' u $X:$Y t \"$LT\" w l lc rgb ${rgbcolors[$CI]} lw 5, \\"
 }
