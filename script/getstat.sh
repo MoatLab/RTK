@@ -22,7 +22,7 @@ STATDIR=$TOPDIR/stat
 
 function pr_title()
 {
-    printf "%s,%s,%s,%s,%s\n" "Filename" "Min" "Average" "Median" "Max"
+    printf "%s,%s,%s,%s,%s,%s\n" "Filename" "Min" "Average" "Median" "Max" "Stddev"
 }
 
 INPUT=$1
