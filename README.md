@@ -1,16 +1,14 @@
 ## My Research Toolkit ##
 
-``rtk`` processes latency log files and generate a gnuplot template file. It can
-be used to plot (1). latency CDF, (2). IOPS v.s. time, and (3). lat v.s. time graphs. for
+``rtk`` processes latency log files and generates a gnuplot template file. It can
+be used to plot (1). latency CDF, (2). IOPS v.s. time, and (3). lat v.s. time graphs for
 FIO and replayer latency log files
 
 ### Log file format
 - must be a CSV file
 - 2nd column representing latency (which we will plot)
 
-####
-
-- file structures
+### File Structures
 
 ```
 .
@@ -39,24 +37,24 @@ FIO and replayer latency log files
 
 - functions of major dirs
 
-  - ``**raw/**``: For holding raw experiment latency log files. For each set of log
+  - ``raw/``: For holding raw experiment latency log files. For each set of log
     files you want to put in the same graph, create an experiment folder (e.g.
     raw/exptest) for it, then put all your log files under expriment folder
 
-  - ``**dat/**``: For holding percentile data files, generated from raw log files.
+  - ``dat/``: For holding percentile data files, generated from raw log files.
     For above ``raw/exptest`` expriment, ``rtk`` will create ``dat/exptest``
     and put all percentile ".dat" files under it, this folder is the data
     source later used by gnuplot file to do plotting.
 
-  - ``**stat/**``: For holding basic statistics info about the latency log
+  - ``stat/``: For holding basic statistics info about the latency log
     file, such as avg, median, etc.
 
-  - ``**plot/**``: For holding gnuplot template files generated for each
+  - ``plot/``: For holding gnuplot template files generated for each
     expriment dataset.
 
-  - ``**eps/**``: For holding generated eps graphs for each experiment
+  - ``eps/``: For holding generated eps graphs for each experiment
 
-  - ''**script/**'': For holding scripts for data processing
+  - ``script/``: For holding data processing scripts
 
 
 ### How To Use RTK ###
@@ -84,3 +82,6 @@ FIO and replayer latency log files
   generate gnuplot template file as ``plot/exptest.plot`` and plot graph as
   ``eps/exptest.eps``. By default, rtk will use ``evince`` to open the newly
   generated eps graph.
+  
+  In this repo, (1)(2)(3) is already done for you with an example experiment
+  named "exptest", you can simply do (4) to see results.
