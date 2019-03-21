@@ -104,5 +104,15 @@ FIO and replayer latency log files
   Then, check out the new eps graph in ``eps/exptest.eps``.
 
 
+### Discard an expriment 
 
+Basically, if one experiment is no longer needed, you can delete all related
+files by using ``clear.sh``, e.g. to delete experiment ``exptest``, do
+
+```
+$ ./clear.sh exptest
+```
+
+This will remove ``{raw,dat,stat}/exptest``, ``plot/exptest.plot`` and
+``eps/exptest.eps`` from your rtk folder.
   
