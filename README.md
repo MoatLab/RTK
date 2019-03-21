@@ -85,3 +85,17 @@ FIO and replayer latency log files
   
   In this repo, (1)(2)(3) is already done for you with an example experiment
   named "exptest", you can simply do (4) to see results.
+
+  (5). Further cosmeticize your graph by tuning parameters in template gnuplot
+  file (``plot/exptest.plot``), e.g. X-axis and Y-axis range, line width and colors,
+  etc. And you modify the plot file, replot it by doing:
+
+  ```
+  $ gnuplot plot/exptest.plot
+  ```
+
+  Then, check out the new eps graph in ``eps/exptest.eps``.
+
+
+
+  
