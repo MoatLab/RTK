@@ -4,7 +4,12 @@
 be used to plot (1). latency CDF, (2). IOPS v.s. time, and (3). lat v.s. time graphs for
 FIO and replayer latency log files
 
+### Dependencies
+
+- Make sure you have ``gnuplot``, ``awk`` and ``evince`` installed in your system.
+
 ### Log file format
+
 - must be a CSV file
 - 2nd column representing latency (which we will plot)
 
@@ -60,22 +65,24 @@ FIO and replayer latency log files
 ### How To Use RTK ###
 
   (1). Create ``raw/$EXPDIR``, e.g. take raw/exptest as an example (raw/exptest
-  already create in this repo)
+  already created in this repo)
 
   (2). Put all your ``.log`` files into raw/exptest, PLEASE make sure your log
-  file format follows the rules stated above. Under raw/exptest, I already put
+  file format follows the rules stated
+  [above](#markdown-header-log-file-format). Under raw/exptest, I already put
   some sample log files there.
 
   (3). Change all.sh to specify (a) the type of graph you want to have and (b)
-  the experiment folder name. Specifically, if you want to plot **CDF** for **raw/exptest**
-  experiment folder, make the following changes in ``all.sh`` in line 24 & 25:
+  the experiment folder name. Specifically, if you want to plot **CDF** for
+  **raw/exptest** experiment folder, make the following changes in ``all.sh``
+  in line 24 & 25:
 
     ```
       TARGET="exptest"
       TYPE="lat-cdf"
     ```
 
-  (4). Under rtk/ folder, run "./all.sh". 
+  (4). Under rtk/ folder, run ``./all.sh``. 
   
   It will process log files under ``raw/exptest``, generate percentile files
   under ``dat/exptest``, create statistics file under ``stat/exptest``,
@@ -88,7 +95,7 @@ FIO and replayer latency log files
 
   (5). Further cosmeticize your graph by tuning parameters in template gnuplot
   file (``plot/exptest.plot``), e.g. X-axis and Y-axis range, line width and colors,
-  etc. And you modify the plot file, replot it by doing:
+  etc. After you modify the plot file, replot it by doing:
 
   ```
   $ gnuplot plot/exptest.plot
