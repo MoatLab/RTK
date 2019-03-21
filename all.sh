@@ -21,8 +21,8 @@ STATDIR=$TOPDIR/stat
 ###############################################################
 
 # supported TYPE: lat-cdf, lat-time, iops-time
-TARGET="p1-single-ram-effect"
-TYPE="iops-time"
+TARGET="exptest"
+TYPE="lat-cdf"
 
 # only needed when generating dat files
 $SCRIPTDIR/raw2dat.sh $TYPE $TARGET 0 1 0.0001
