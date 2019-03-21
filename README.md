@@ -12,6 +12,7 @@ FIO and replayer latency log files
 
 - file structures
 
+```
 .
 ├── README.md
 ├── all.sh
@@ -34,6 +35,7 @@ FIO and replayer latency log files
 │   ├── sample-cdf-lat.sh
 │   └── stat.awk
 └── stat
+```
 
 - functions of major dirs
 
