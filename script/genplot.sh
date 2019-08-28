@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author: Huaicheng <huaicheng@cs.uchicago.edu>
-# generate a template gnuplot file 
+# generate a template gnuplot file
 #
 
 SOURCE="${BASH_SOURCE[0]}"
@@ -93,7 +93,7 @@ OUTPUT="set output \"eps/$TARGET.eps\""
 SIZE="set size 1, 1"
 PLOT="plot \\"
 
-declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"magenta\" \"orange\" 
+declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"magenta\" \"orange\"
                     \"cyan\" \"yellow\" \"purple\" \"pink\" \"red\")
 
 nbcolors=${#rgbcolors[@]}
@@ -103,17 +103,17 @@ nbcolors=${#rgbcolors[@]}
 function getCI()
 {
     local datfname=$1
-    echo $(basename $datfname | awk -F"_" '{print $1}')
+    echo $(basename $datfname | gawk -F"_" '{print $1}')
 }
 
 # given raw log file name, get line title for GNUPLOT
-function getLT() 
+function getLT()
 {
     local rawfname=$1
-    echo $(basename $rawfname | awk -F"_" '{print $3}')
+    echo $(basename $rawfname | gawk -F"_" '{print $3}')
 }
 
-# given filename and linetitle, get the plot command 
+# given filename and linetitle, get the plot command
 # $1: dat file name
 # $2: line title, from getLT()
 # $3: color index, [0..nbcolors]
@@ -134,7 +134,7 @@ function plotone()
 }
 
 # the main function to generate gnuplot file
-function genplot() 
+function genplot()
 {
     # we are picky about colors, so be careful about the ordering
     if [[ -e $PLOTDIR/${TARGET}.plot ]]; then

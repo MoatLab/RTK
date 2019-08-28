@@ -4,10 +4,10 @@
 
 # resolve the correct absolute path
 SOURCE="${BASH_SOURCE[0]}"
-while [ -h "$SOURCE" ]; do 
+while [ -h "$SOURCE" ]; do
     TOPDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
     SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /* ]] && SOURCE="$TOPDIR/$SOURCE" 
+    [[ $SOURCE != /* ]] && SOURCE="$TOPDIR/$SOURCE"
 done
 
 TOPDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -27,7 +27,7 @@ TYPE="lat-cdf"
 # only needed when generating dat files
 $SCRIPTDIR/raw2dat.sh $TYPE $TARGET 0 1 0.0001
 
-# generate plot file first 
+# generate plot file first
 $SCRIPTDIR/genplot.sh $TARGET $TYPE
 
 # get statistics

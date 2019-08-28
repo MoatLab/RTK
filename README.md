@@ -6,7 +6,7 @@ FIO and replayer latency log files
 
 ### Dependencies
 
-- Make sure you have ``gnuplot``, ``awk`` and ``evince`` installed in your system.
+- Make sure you have ``gnuplot``, ``gawk`` and ``evince`` installed in your system.
 
 ### Log file format
 

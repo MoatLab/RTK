@@ -6,7 +6,7 @@ SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
     TOPDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
     SOURCE="$(readlink "$SOURCE")"
-    [[ $SOURCE != /* ]] && SOURCE="$TOPDIR/$SOURCE" 
+    [[ $SOURCE != /* ]] && SOURCE="$TOPDIR/$SOURCE"
 done
 
 TOPDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )/.."
@@ -32,5 +32,5 @@ PRECISION=$4
 output=$5
 
 cat /dev/null > $output
-awk -v min=$MIN -v max=$MAX -v precision=$PRECISION -v output=$output -f $SCRIPTDIR/cdf.awk $input
+gawk -v min=$MIN -v max=$MAX -v precision=$PRECISION -v output=$output -f $SCRIPTDIR/cdf.awk $input
 

@@ -56,21 +56,21 @@ function raw2dat_lat_cdf()
 {
     input=$1
     tmp=${input/log/tmp}
-    awk -F"," '{print $2}' $1 | sort -n -o $tmp
+    gawk -F"," '{print $2}' $1 | sort -n -o $tmp
     # use the following line when you don't want to include 0-1us latency in your CDF graph
-    #awk -F"," '{if ($2 >= 40) print $2}' $1 | sort -n -o $tmp 
+    #gawk -F"," '{if ($2 >= 40) print $2}' $1 | sort -n -o $tmp
     # CDF(x, y), sampling
     $SCRIPTDIR/sample-cdf-lat.sh $tmp $MIN $MAX $PRECISION $2
 }
 
 function raw2dat_lat_time()
 {
-    awk -F"," '{print $1, $2}' $1 > $2
+    gawk -F"," '{print $1, $2}' $1 > $2
 }
 
 function raw2dat_iops_time()
 {
-    awk -F"," '{print $1, $2}' $1 > $2
+    gawk -F"," '{print $1, $2}' $1 > $2
 }
 
 
@@ -97,10 +97,10 @@ esac
 
 cd $tgtrawdir
 
-for rawfile in *.log; do 
+for rawfile in *.log; do
     fname=${rawfile%.*}
     if [[ ! -e ${fname}.tmp ]]; then
-        #awk -F"," '{print $2}' $rawfile | sort -n -o ${fname}.tmp 
+        #gawk -F"," '{print $2}' $rawfile | sort -n -o ${fname}.tmp
         ${raw2dat_handler} $rawfile ${fname}.dat
         mv ${fname}.dat $tgtdatdir
     fi

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author: Huaicheng <huaicheng@cs.uchicago.edu>
-# generate a template gnuplot file 
+# generate a template gnuplot file
 #
 
 SOURCE="${BASH_SOURCE[0]}"
@@ -43,7 +43,7 @@ fi
 if [[ -f $INPUT ]]; then
 
     pr_title
-    awk -vFNAME=$(basename $INPUT) -f $SCRIPTDIR/stat.awk $INPUT
+    gawk -vFNAME=$(basename $INPUT) -f $SCRIPTDIR/stat.awk $INPUT
 
 elif [[ -d $RAWDIR/$INPUT ]]; then
 
@@ -57,10 +57,10 @@ elif [[ -d $RAWDIR/$INPUT ]]; then
     fi
 
     {
-        pr_title 
+        pr_title
         for i in $RAWDIR/$INPUT/*.tmp; do
             FNAME=$(basename $i)
-            awk -vFNAME=$FNAME -f $SCRIPTDIR/stat.awk $i
+            gawk -vFNAME=$FNAME -f $SCRIPTDIR/stat.awk $i
         done
     } > $STATF
 
