@@ -1,6 +1,7 @@
 #!/bin/bash
 # Author: Huaicheng <huaicheng@cs.uchicago.edu>
-# generate a template gnuplot file
+#
+# Generate a template gnuplot file
 #
 
 SOURCE="${BASH_SOURCE[0]}"
@@ -31,13 +32,9 @@ if [[ ! -x "$GNUPLOT" ]]; then
 	exit 1
 fi
 
-if [[ ! -d $PLOTDIR ]]; then
-    mkdir -p $PLOTDIR
-fi
+[[ ! -d $PLOTDIR ]] && mkdir -p $PLOTDIR
 
-if [[ ! -d $EPSDIR ]]; then
-    mkdir -p $EPSDIR
-fi
+[[ ! -d $EPSDIR ]] && mkdir -p $EPSDIR
 
 TARGET="$1"
 TYPE="$2"
@@ -52,10 +49,10 @@ KEY=
 
 case $TYPE in
     "lat-cdf")
-        TITLE="set title \"CDF of Read\""
-        XRANGE="set xrange [0:400]"
-        YRANGE="set yrange [0:1]"
-        XLABEL="set xlabel \"Latency (us)\""
+        TITLE="set title \"Latency CDF\""
+        XRANGE="set xrange [0:]"
+        YRANGE="set yrange [0:]"
+        XLABEL="set xlabel \"Latency\""
         KEY="set key right bottom"
         #X="(\$1/1000)"      # latency us -> ms, show in millionseconds
         X=1
@@ -67,10 +64,10 @@ case $TYPE in
         YRANGE="set yrange [0:]"
         XLABEL="set xlabel \"Time (s)\\n\""
         YLABEL="set ylabel \"Latency (ms)\""
-        YGRID="set grid ytics"
+        YGRID="set grid ytics lt 2 lc rgb \"gray\" lw 1"
         KEY="set key bmargin center horizontal"
-        X="(\$1/1000)"      # timestamp ms -> s, show in seconds
-        Y="(\$2/1000)"      # latency us -> ms, show in millionseconds
+        X=1      # timestamp ms -> s, show in seconds
+        Y=2      # latency us -> ms, show in millionseconds
         ;;
     "iops-time")
         TITLE="set title \"IOPS vs Time\""
@@ -79,8 +76,8 @@ case $TYPE in
         XLABEL="set xlabel \"Time (s)\\n\""
         YLABEL="set ylabel \" KIOPS\""
         KEY="set key bmargin center horizontal"
-        X="(\$1/1000)"      # timestamp ms -> s, show in seconds
-        Y="(\$2/1000)"      # IOPS shown as xx KIOPS
+        X=1      # timestamp ms -> s, show in seconds
+        Y=2      # IOPS shown as xx KIOPS
         ;;
     *)
         echo "Unknown Type: $TYPE, exiting .."
@@ -88,9 +85,9 @@ case $TYPE in
         ;;
 esac
 
-TERM="set term postscript eps color 20"
-OUTPUT="set output \"eps/$TARGET.eps\""
-SIZE="set size 1, 1"
+TERM="set term postscript eps enhanced color 20"
+OUTPUT="set output \"eps/${TARGET}.eps\""
+SIZE="set size 1,.7"
 PLOT="plot \\"
 
 declare -a rgbcolors=(\"gray\" \"green\" \"blue\" \"magenta\" \"orange\"
@@ -146,18 +143,19 @@ function genplot()
 
     # write plot file
     {
-        echo $TERM
-        echo $TITLE
-        echo $KEY
-        echo $XRANGE
-        echo $YRANGE
-        echo $XLABEL
-        echo $YLABEL
-        echo $YGRID
-        echo $OUTPUT
+        echo "${TERM}"
+        echo "${TITLE}"
+        echo "${OUTPUT}"
+        echo "${SIZE}"
+        echo "${KEY}"
+        echo "${XRANGE}"
+        echo "${YRANGE}"
+        echo "${XLABEL}"
+        echo "${YLABEL}"
+        echo "${YGRID}"
 
         # settings should come before this line
-        echo $PLOT
+        echo "${PLOT}"
 
         cnt=0
         for i in dat/$TARGET/*.dat; do
