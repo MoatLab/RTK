@@ -6,12 +6,13 @@ FIO and replayer latency log files
 
 ### Dependencies
 
-- Make sure you have ``gnuplot``, ``gawk`` and ``evince`` installed in your system.
+- Make sure you have ``gnuplot``, ``gawk`` and a pdf reader (e.g., ``evince``)
+  installed in your system.
 
 ### Log file format
 
 - must be a CSV file
-- 2nd column representing latency (which we will plot)
+- 2nd column represents latency or other types of data to process (FIO log style)
 
 ### File Structures
 
@@ -64,44 +65,44 @@ FIO and replayer latency log files
 
 ### How To Use RTK ###
 
-  (1). Create ``raw/$EXPDIR``, e.g. take raw/exptest as an example (raw/exptest
-  already created in this repo)
+(1). Create ``raw/$EXPDIR``, e.g. take raw/exptest as an example (raw/exptest
+already created in this repo)
 
-  (2). Put all your ``.log`` files into raw/exptest, PLEASE make sure your log
-  file format follows the rules stated
-  [above](#markdown-header-log-file-format). Under raw/exptest, I already put
-  some sample log files there.
+(2). Put all your ``.log`` files into raw/exptest, PLEASE make sure your log
+file format follows the rules stated
+[above](#markdown-header-log-file-format). Under raw/exptest, I already put
+some sample log files there.
 
-  (3). Change all.sh to specify (a) the type of graph you want to have and (b)
-  the experiment folder name. Specifically, if you want to plot **CDF** for
-  **raw/exptest** experiment folder, make the following changes in ``all.sh``
-  in line 24 & 25:
-
-    ```
-      TARGET="exptest"
-      TYPE="lat-cdf"
-    ```
-
-  (4). Under rtk/ folder, run ``./all.sh``. 
-  
-  It will process log files under ``raw/exptest``, generate percentile files
-  under ``dat/exptest``, create statistics file under ``stat/exptest``,
-  generate gnuplot template file as ``plot/exptest.plot`` and plot graph as
-  ``eps/exptest.eps``. By default, rtk will use ``evince`` to open the newly
-  generated eps graph.
-  
-  In this repo, (1)(2)(3) is already done for you with an example experiment
-  named "exptest", you can simply do (4) to see results.
-
-  (5). Further cosmeticize your graph by tuning parameters in template gnuplot
-  file (``plot/exptest.plot``), e.g. X-axis and Y-axis range, line width and colors,
-  etc. After you modify the plot file, replot it by doing:
+(3). Change all.sh to specify (a) the type of graph you want to have and (b)
+the experiment folder name. Specifically, if you want to plot **CDF** for
+**raw/exptest** experiment folder, make the following changes in ``all.sh``:
 
   ```
-  $ gnuplot plot/exptest.plot
+    TARGET="exptest"
+    TYPE="lat-cdf"
   ```
 
-  Then, check out the new eps graph in ``eps/exptest.eps``.
+(4). Run ``./all.sh``. 
+
+It will process log files under ``raw/exptest``, generate percentile files
+under ``dat/exptest``, create statistics file under ``stat/exptest``,
+generate gnuplot template file as ``plot/exptest.plot`` and plot graph as
+``eps/exptest.eps``. By default, rtk will use ``evince`` to open the newly
+generated eps graph.
+
+In this repo, (1)(2)(3) is already done for you with an example experiment
+named "exptest", you can simply do (4) to see results.
+
+(5). Further tune the graph by changing the parameters in template gnuplot
+file (e.g., ``plot/exptest.plot``), by adjusting X-axis and Y-axis range,
+line width and colors, etc. After you modify the plot file, replot it by
+doing:
+
+```
+$ gnuplot plot/exptest.plot
+```
+
+Then, check out the new eps graph in ``eps/exptest.eps``.
 
 
 ### Discard an expriment 
