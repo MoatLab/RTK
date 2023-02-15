@@ -99,11 +99,11 @@ cd $tgtrawdir
 
 for rawfile in *.log; do
     fname=${rawfile%.*}
-    if [[ ! -e ${fname}.tmp ]]; then
-        #gawk -F"," '{print $2}' $rawfile | sort -n -o ${fname}.tmp
-        ${raw2dat_handler} $rawfile ${fname}.dat
-        mv ${fname}.dat $tgtdatdir
-    fi
+    #if [[ ! -e ${fname}.tmp ]]; then
+    #gawk -F"," '{print $2}' $rawfile | sort -n -o ${fname}.tmp
+    ${raw2dat_handler} $rawfile ${fname}.dat
+    mv ${fname}.dat $tgtdatdir
+    #fi
 
 done
 

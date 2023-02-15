@@ -136,7 +136,7 @@ function genplot()
     # we are picky about colors, so be careful about the ordering
     if [[ -e $PLOTDIR/${TARGET}.plot ]]; then
         echo "Found existing plot file: ${TARGET}.plot"
-        exit
+        #exit
     fi
 
     nbfiles=$(ls -l dat/$TARGET/*.dat | wc -l)
